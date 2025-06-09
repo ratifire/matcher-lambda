@@ -8,17 +8,16 @@ import java.util.*
 @DynamoDbBean
 data class ParticipantEntity(
     @get:DynamoDbPartitionKey
-    val id: Int,
-    val participantId: Long,
-    val specialization: String,
-    val type: ParticipantType,
-    val masteryLevel: Int,
-    val desiredInterview: Int,
-    val matchedInterview: Int = 0,
-    val active: Boolean,
-    val hardSkills: Set<String>,
-    val softSkills: Set<String>,
-    val dates: Set<Date>,
-    val averageMark: Double,
-    val blackList: Set<Int>
+    var participantId: Long? = null,
+    var specialization: String? = null,
+    var type: ParticipantType? = null,
+    var masteryLevel: Int? = null,
+    var desiredInterview: Int? = null,
+    var matchedInterview: Int? = null,
+    var active: Boolean? = null,
+    var hardSkills: Set<String>? = null,
+    var softSkills: Set<String>? = null,
+    var dates: Set<String>? = null, // using ISO-8601 strings instead of Date
+    var averageMark: Double? = null,
+    var blackList: Set<Int>? = null
 )
