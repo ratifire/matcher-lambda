@@ -3,7 +3,6 @@ package entity
 import enums.ParticipantType
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey
-import java.util.*
 
 @DynamoDbBean
 data class ParticipantEntity(
