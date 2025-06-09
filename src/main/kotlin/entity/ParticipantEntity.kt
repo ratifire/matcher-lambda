@@ -16,7 +16,7 @@ data class ParticipantEntity(
     var active: Boolean? = null,
     var hardSkills: Set<String>? = null,
     var softSkills: Set<String>? = null,
-    var dates: Set<String>? = null, // using ISO-8601 strings instead of Date
+    var dates: Set<String>? = null,
     var averageMark: Double? = null,
     var blackList: Set<Int>? = null
 )

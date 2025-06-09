@@ -12,6 +12,8 @@ repositories {
 }
 
 dependencies {
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
     kapt ("org.mapstruct:mapstruct-processor:1.4.2.Final")
     implementation ("org.mapstruct:mapstruct:1.4.2.Final")
     implementation("software.amazon.awssdk:dynamodb:2.25.27")

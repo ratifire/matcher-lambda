@@ -11,7 +11,7 @@ import software.amazon.awssdk.services.dynamodb.model.AttributeValue
 
 class ParticipantRepository {
 
-    private val tableName = "participant"
+    private val tableName = "Participants"
     private val dynamoDbClient = DynamoDbClient.create()
     private val enhancedClient = DynamoDbEnhancedClient.builder()
         .dynamoDbClient(dynamoDbClient)
