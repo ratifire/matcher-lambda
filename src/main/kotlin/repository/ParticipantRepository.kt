@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat
 class ParticipantRepository {
 
     private val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-    private val tableName = "Participants"
+    private val tableName = "Participant"
     private val dynamoDbClient = DynamoDbClient.create()
     private val enhancedClient = DynamoDbEnhancedClient.builder()
         .dynamoDbClient(dynamoDbClient)
@@ -143,17 +143,17 @@ class ParticipantRepository {
     private fun convertTo(item: Map<String, AttributeValue>) =  ParticipantEntity(
         id = item["id"]?.n()?.toIntOrNull()?: error("Participant ID must not be null"),
         participantId = item["participantId"]?.n()?.toLongOrNull()?: error("Participant ID must not be null"),
-        specialization = item["specialization"]?.n() ?: error("Specialization must not be null"),
+        specialization = item["specialization"]?.s() ?: error("Specialization must not be null"),
         type = ParticipantType.valueOf(item["type"]?.s()?.toString()?: error("Type must not be null")),
         masteryLevel = item["masteryLevel"]?.n()?.toIntOrNull() ?: error("Mastery level must not be null"),
         desiredInterview = item["desiredInterview"]?.n()?.toIntOrNull() ?: error("Desired interview must not be null"),
         matchedInterview = item["matchedInterview"]?.n()?.toIntOrNull() ?: error("Matched interview must not be null"),
         active = item["active"]?.bool() ?: error("Active must not be null"),
-        hardSkills = item["hardSkills"]?.l()?.map{it.toString()}?.toSet() ?: error("hardSkills cannot be null"),
-        softSkills = item["softSkills"]?.l()?.map{ it.toString()}?.toSet() ?: error("softSkills cannot be null"),
-        dates = item["dates"]?.l()?.map{formatter.parse(it.toString())}?.toSet() ?: error("Dates cannot be null"),
+        hardSkills = item["hardSkills"]?.ss()?.map{it.toString()}?.toSet() ?: error("hardSkills cannot be null"),
+        softSkills = item["softSkills"]?.ss()?.map{ it.toString()}?.toSet() ?: error("softSkills cannot be null"),
+        dates = item["dates"]?.ss()?.map{formatter.parse(it.toString())}?.toSet() ?: error("Dates cannot be null"),
         averageMark =  item["averageMark"]?.n()?.toDoubleOrNull() ?: error("averageMark cannot be null"),
-        blackList = item["balckList"]?.l()?.map{ it.n().toInt()}?.toSet() ?: error("blackList cannot be null")
+        blackList = item["blackList"]?.ns()?.map{ it.toInt()}?.toSet() ?: error("blackList cannot be null")
     )
 
     private fun convertFrom(participant: ParticipantEntity) =  mapOf(

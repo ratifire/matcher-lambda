@@ -19,7 +19,8 @@ class Main : RequestHandler<Map<String, Any>, Output> {
         val dto: ParticipantDto = objectMapper.convertValue(input, ParticipantDto::class.java)
         val entity = mapper.toEntity(dto)
 
-        participantRepository.save(entity)
+      //  participantRepository.save(entity)
+        participantRepository.findById(entity.id).let { println(it) }
         return Output(message = "participant created")
     }
 }
