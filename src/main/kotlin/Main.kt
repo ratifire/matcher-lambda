@@ -20,7 +20,8 @@ class Main : RequestHandler<Map<String, Any>, Output> {
         val entity = mapper.toEntity(dto)
 
       //  participantRepository.save(entity)
-        participantRepository.findById(entity.id).let { println(it) }
+      //  participantRepository.findById(entity.id).let { println(it) }
+        participantRepository.findMatch(entity).let { println(it)}
         return Output(message = "participant created")
     }
 }

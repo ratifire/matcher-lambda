@@ -29,7 +29,7 @@ class ParticipantRepository {
     fun findMatch(participant: ParticipantEntity): List<ParticipantEntity> {
         val query = StringBuilder(
             """
-        SELECT * FROM "ParticipantTable"
+        SELECT * FROM "Participant"
         WHERE "type" <> ? 
           AND "specialization" = ?
           AND "active" = true
