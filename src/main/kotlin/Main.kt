@@ -16,7 +16,6 @@ class Main : RequestHandler<Map<String, Any>, Output> {
     private val mapper = Mappers.getMapper(ParticipantMapper::class.java)
 
     override fun handleRequest(input: Map<String, Any>, context: Context): Output {
-
         val dto: ParticipantDto = objectMapper.convertValue(input, ParticipantDto::class.java)
         val entity = mapper.toEntity(dto)
 

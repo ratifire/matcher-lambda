@@ -19,28 +19,30 @@ class ParticipantService(
         }
 
         val participantEntity = participantMapper.toEntity(participant)
-        return participantRepository.save(participantEntity)
+        participantRepository.save(participantEntity)
+        return participantEntity;
     }
 
     fun save(participant: ParticipantEntity): ParticipantEntity {
-        return participantRepository.save(participant)
+        participantRepository.save(participant)
+        return participant;
     }
 
     fun delete(id: Int) {
-        participantRepository.deleteById(id)
+      //  participantRepository.deleteById(id)
     }
 
     fun update(participant: ParticipantDto) {
-        participantRepository.findById(participant.id)
-            .map {
-                participantMapper.toEntity(participant).copy(
-                    matchedInterview = it.matchedInterview,
-                    blackList = it.blackList,
-                    active = participant.desiredInterview > it.matchedInterview
-                )
-            }
-            .ifPresentOrElse({participantRepository.save(it)},
-                { throw NoSuchElementException("Participant with id: ${participant.id} not found") })
+        val participantOld = participantRepository
+            .findById(participant.id)
+            .let {
+            participantMapper.toEntity(participant).copy(
+                matchedInterview = it.matchedInterview,
+                blackList = it.blackList,
+                active = participant.desiredInterview > it.matchedInterview
+            )
+        }
+        participantRepository.save(participantOld)
     }
 
     fun isParticipantRequestExist(participant: ParticipantDto) = participantRepository.exist(

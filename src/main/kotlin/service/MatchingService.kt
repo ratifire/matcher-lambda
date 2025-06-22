@@ -20,7 +20,8 @@ class MatchingService(
 
     fun findMatch(participant: ParticipantEntity): Map<ParticipantEntity, Date> {
         val candidates = participantRepository.findMatch(participant)
-            .sortedByDescending { participant.hardSkills?.intersect(it?.hardSkills)?.size }
+            .filter { entity -> entity.dates.any{date -> date in participant.dates}}
+            .sortedByDescending { participant.hardSkills.intersect(it.hardSkills).size }
 
 
         val availableDate = participant.dates.toMutableSet()
@@ -38,15 +39,15 @@ class MatchingService(
                 ParticipantType.INTERVIEWER -> PairedParticipantDto(
                     interviewerId = it.key.participantId,
                     candidateId = participant.participantId,
-                    interviewerParticipantId = it.key.id!!,
-                    candidateParticipantId = participant.id!!,
+                    interviewerParticipantId = it.key.id,
+                    candidateParticipantId = participant.id,
                     date = it.value
                 )
                 ParticipantType.CANDIDATE -> PairedParticipantDto(
                     interviewerId = participant.participantId,
                     candidateId = it.key.participantId,
-                    interviewerParticipantId = participant.id!!,
-                    candidateParticipantId = it.key.id!!,
+                    interviewerParticipantId = participant.id,
+                    candidateParticipantId = it.key.id,
                     date = it.value
                 )
             }
