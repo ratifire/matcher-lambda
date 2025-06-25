@@ -23,7 +23,6 @@ class MatchingService(
             .filter { entity -> entity.dates.any{date -> date in participant.dates}}
             .sortedByDescending { participant.hardSkills.intersect(it.hardSkills).size }
 
-
         val availableDate = participant.dates.toMutableSet()
         return candidates.mapNotNull { p ->
             availableDate.find { it in p.dates }?.let {

@@ -7,9 +7,12 @@ import software.amazon.awssdk.enhanced.dynamodb.Key
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue
+import software.amazon.awssdk.services.dynamodb.model.DeleteItemRequest
 import software.amazon.awssdk.services.dynamodb.model.GetItemRequest
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest
 import software.amazon.awssdk.services.dynamodb.model.QueryRequest
+import software.amazon.awssdk.services.dynamodb.model.ScanRequest
+import software.amazon.awssdk.services.dynamodb.model.UpdateItemRequest
 import java.text.SimpleDateFormat
 
 class ParticipantRepository {
@@ -17,14 +20,6 @@ class ParticipantRepository {
     private val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     private val tableName = "Participant"
     private val dynamoDbClient = DynamoDbClient.create()
-    private val enhancedClient = DynamoDbEnhancedClient.builder()
-        .dynamoDbClient(dynamoDbClient)
-        .build()
-
-//    val participantTable = enhancedClient.table(
-//        tableName,
-//        TableSchema.fromBean(ParticipantEntity::class.java)
-//    )
 
     fun findMatch(participant: ParticipantEntity): List<ParticipantEntity> {
         val query = StringBuilder(
@@ -100,12 +95,38 @@ class ParticipantRepository {
         dynamoDbClient.putItem(request)
     }
 
-//    fun deleteById(id: Int) {
-//        val key = Key.builder()
-//            .partitionValue(id)
-//            .build()
-//        participantTable.deleteItem { it.key(key) }
-//    }
+    fun update(participant: ParticipantEntity) {
+        val item = convertFrom(participant)
+
+        val key = mapOf("id" to item["id"]!!)
+
+        // Remove the key from the update fields
+        val nonKeyAttributes = item.filterKeys { it != "id" }
+
+        val updateExpression = nonKeyAttributes.keys.joinToString(", ") { "$it = :$it" }.let { "SET $it" }
+
+        val attributeValues = nonKeyAttributes.mapKeys { ":${it.key}" }
+
+        val request = UpdateItemRequest.builder()
+            .tableName(tableName)
+            .key(key)
+            .updateExpression(updateExpression)
+            .expressionAttributeValues(attributeValues)
+            .build()
+
+        dynamoDbClient.updateItem(request)
+    }
+
+    fun deleteById(id: Int) {
+        val key = mutableMapOf<String, AttributeValue>("id" to AttributeValue.fromN(id.toString()))
+
+        val request = DeleteItemRequest.builder()
+            .tableName(tableName)
+            .key(key)
+            .build()
+
+        dynamoDbClient.deleteItem(request)
+    }
 
     fun findById(id: Int) : ParticipantEntity {
         val key = mapOf("id" to AttributeValue.fromN(id.toString()))
@@ -118,11 +139,9 @@ class ParticipantRepository {
     }
 
     fun exist(participantId: Long, specialization: String, mastery: Int, type: ParticipantType): Boolean {
-        val request = QueryRequest.builder()
+        val request = ScanRequest.builder()
             .tableName(tableName)
-            .indexName("ParticipantLookupIndex")
-            .keyConditionExpression("participantId = :pid")
-            .filterExpression("specialization = :spec and masteryLevel = :ml and #t = :type")
+            .filterExpression("participantId = :pid and specialization = :spec and masteryLevel = :ml and #t = :type")
             .expressionAttributeValues(
                 mapOf(
                     ":pid" to AttributeValue.fromN(participantId.toString()),
@@ -132,10 +151,10 @@ class ParticipantRepository {
                 )
             )
             .expressionAttributeNames(mapOf("#t" to "type"))
-            .limit(1)
+            .limit(1) // early exit
             .build()
 
-        val result = dynamoDbClient.query(request)
+        val result = dynamoDbClient.scan(request)
         return result.count() > 0
 
     }

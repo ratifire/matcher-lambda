@@ -15,7 +15,7 @@ class ParticipantService(
     fun save(participant: ParticipantDto): ParticipantEntity {
         if (!validateParticipant(participant) || isParticipantRequestExist(participant)) {
             throw ParticipantException("Participant object with ID " + participant.id + " is already registered or " +
-                    "have size of time slots")
+                    "have size of time slots") //todo add proper logging
         }
 
         val participantEntity = participantMapper.toEntity(participant)
@@ -29,7 +29,7 @@ class ParticipantService(
     }
 
     fun delete(id: Int) {
-      //  participantRepository.deleteById(id)
+        participantRepository.deleteById(id)
     }
 
     fun update(participant: ParticipantDto) {
@@ -43,6 +43,10 @@ class ParticipantService(
             )
         }
         participantRepository.save(participantOld)
+    }
+
+    fun update(participant: ParticipantEntity){
+        participantRepository.update(participant)
     }
 
     fun isParticipantRequestExist(participant: ParticipantDto) = participantRepository.exist(
