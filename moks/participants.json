@@ -1,0 +1,93 @@
+[
+  {
+    "id": 1,
+    "participantId": 101,
+    "desiredInterview": 2,
+    "type": "CANDIDATE",
+    "specialization": "Software Engineering",
+    "masteryLevel": 1,
+    "hardSkills": [
+      "Java",
+      "Kotlin",
+      "Spring Boot"
+    ],
+    "softSkills": [
+      "Problem Solving",
+      "Team Collaboration"
+    ],
+    "dates": [
+      "2024-11-01T09:00:00Z",
+      "2024-11-02T09:00:00Z"
+    ],
+    "blackList": [
+      102,
+      2,
+      10
+    ],
+    "averageMark": 7
+  },
+
+  {
+    "participantId": 202,
+    "desiredInterview": 2,
+    "type": "INTERVIEWER",
+    "specialization": "Software Engineering",
+    "masteryLevel": 3,
+    "hardSkills": [
+      "Python",
+      "Machine Learning",
+      "TensorFlow"
+    ],
+    "softSkills": [
+      "Analytical Thinking",
+      "Mentoring"
+    ],
+    "dates": [
+      "2024-11-01T09:00:00Z",
+      "2024-11-02T09:00:00Z"
+    ],
+    "blackList": [
+      10
+    ],
+    "averageMark": 7
+  },
+
+  {
+    "participantId": 303,
+    "desiredInterview": 5,
+    "type": "CANDIDATE",
+    "specialization": "Cybersecurity",
+    "mastery": "Intermediate",
+    "hardSkills": [
+      "Network Security",
+      "Cryptography"
+    ],
+    "softSkills": [
+      "Attention to Detail",
+      "Critical Thinking"
+    ],
+    "dates": [
+      "2024-11-05T16:30:00Z",
+      "2024-11-06T16:30:00Z"
+    ],
+    "averageMark": 7
+  },
+  {
+    "participantId": 404,
+    "desiredInterview": 1,
+    "type": "INTERVIEWER",
+    "specialization": "Project Management",
+    "mastery": "Advanced",
+    "hardSkills": [
+      "Agile Methodologies",
+      "Risk Management"
+    ],
+    "softSkills": [
+      "Leadership",
+      "Communication"
+    ],
+    "dates": [
+      "2024-11-07T10:00:00Z"
+    ]
+  }
+]
