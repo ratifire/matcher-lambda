@@ -170,9 +170,9 @@ class ParticipantRepository {
         active = item["active"]?.bool() ?: error("Active must not be null"),
         hardSkills = item["hardSkills"]?.ss()?.map{it.toString()}?.toSet() ?: error("hardSkills cannot be null"),
         softSkills = item["softSkills"]?.ss()?.map{ it.toString()}?.toSet() ?: error("softSkills cannot be null"),
-        dates = item["dates"]?.ss()?.map{formatter.parse(it.toString())}?.toSet() ?: error("Dates cannot be null"),
+        dates = item["dates"]?.l()?.map{formatter.parse(it.s().toString())}?.toSet() ?: error("Dates cannot be null"),
         averageMark =  item["averageMark"]?.n()?.toDoubleOrNull() ?: error("averageMark cannot be null"),
-        blackList = item["blackList"]?.ns()?.map{ it.toInt()}?.toSet() ?: error("blackList cannot be null")
+        blackList = item["blackList"]?.l()?.map{ it.n().toInt()}?.toSet() ?: error("blackList cannot be null")
     )
 
     private fun convertFrom(participant: ParticipantEntity) =  mapOf(
@@ -186,8 +186,9 @@ class ParticipantRepository {
             "active" to AttributeValue.fromBool(participant.active),
             "hardSkills" to AttributeValue.fromSs(participant.hardSkills.toList()),
             "softSkills" to AttributeValue.fromSs(participant.softSkills.toList()),
-            "dates" to AttributeValue.fromSs(participant.dates.map { formatter.format(it) }),
+            "dates" to AttributeValue.fromL(participant.dates
+                .map { AttributeValue.fromS(formatter.format(it)) }),
             "averageMark" to AttributeValue.fromN(participant.averageMark.toString()),
-            "blackList" to AttributeValue.fromNs(participant.blackList.map { it.toString() })
+            "blackList" to AttributeValue.fromL(participant.blackList.map { AttributeValue.fromN(it.toString())})
         )
 }
