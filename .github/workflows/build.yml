@@ -29,7 +29,6 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ${{ env.working-directory }}
 
     steps:
       - name: Checkout
