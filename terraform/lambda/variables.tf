@@ -15,6 +15,10 @@ variable "participant_queue_name" {
   type = string
 }
 
+variable "participant_queue_name_dlq" {
+  type = string
+}
+
 variable "lambda_role_name" {
   type = string
   default = "matcher_lambda_role"

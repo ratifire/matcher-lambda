@@ -9,11 +9,13 @@ resource "aws_iam_role" "lambda_role" {
   name = var.lambda_role_name
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
-    Statement = [{
-      Effect = "Allow"
-      Principal = { Service = "lambda.amazonaws.com" }
-      Action = "sts:AssumeRole"
-    }]
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = { Service = "lambda.amazonaws.com" }
+        Action = "sts:AssumeRole"
+      }
+    ]
   })
 }
 
@@ -36,14 +38,10 @@ resource "aws_iam_role_policy" "lambda_policy" {
   })
 }
 
-resource "aws_sqs_queue" "matcher_queue" {
-  name = var.participant_queue_name
-}
-
 resource "aws_dynamodb_table" "matches" {
-  name           = var.dynamoDB_name
-  billing_mode   = "PAY_PER_REQUEST"
-  hash_key       = "id"
+  name         = "${var.dynamoDB_name}_${var.deploy_profile}"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "id"
 
   attribute {
     name = "id"
@@ -61,7 +59,7 @@ resource "aws_lambda_function" "matcher_lambda" {
 
   environment {
     variables = {
-      TABLE_NAME = aws_dynamodb_table.matches.name
+      TABLE_NAME                    = aws_dynamodb_table.matches.name
       MATCHED_PARTICIPANT_QUEUE_URL = aws_sqs_queue.matcher_queue.url
     }
   }
