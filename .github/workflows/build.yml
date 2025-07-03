@@ -2,7 +2,7 @@ name: Build
 
 env:
   IMAGE_TAG: ${{ github.sha }}
-  working-directory: terraform
+  working-directory: terraform/lambda
 
 on:
   workflow_dispatch:
@@ -25,8 +25,7 @@ jobs:
     name: Build and Push
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment || 'dev' }}
-    env:
-      working-directory: terraform/lambda
+
     defaults:
       run:
         shell: bash
