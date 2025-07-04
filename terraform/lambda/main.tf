@@ -52,7 +52,7 @@ resource "aws_lambda_function" "matcher_lambda" {
   environment {
     variables = {
       TABLE_NAME                    = "${var.dynamoDB_name}_${var.deploy_profile}"
-      MATCHED_PARTICIPANT_QUEUE_URL = aws_sqs_queue.matcher_queue.url
+      MATCHED_PARTICIPANT_QUEUE_URL = aws_sqs_queue.matcher_participant.url
     }
   }
 }
