@@ -71,5 +71,6 @@ jobs:
 
       - name: Terraform Destroy
         working-directory: terraform/lambda
-        run: |
-          terraform destroy -auto-approve -input=false -var-file="${{ github.event.inputs.environment }}.tfvars"
+        env:
+          TF_VAR_image_tag: dummy
+        run: terraform destroy -auto-approve -input=false -var-file="dev.tfvars"
