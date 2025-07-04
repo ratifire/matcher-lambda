@@ -57,8 +57,8 @@ resource "aws_lambda_function" "matcher_lambda" {
   memory_size   = 512
   timeout       = 30
 
-  s3_bucket = "skillzzy-matcher-terraform-lambda-build-${var.deploy_profile}-matcher-lambda-tstates"
-  s3_key    = "matcher-lambda.jar"
+  s3_bucket = "skillzzy-matcher-terraform-lambda"
+  s3_key    = "build-${var.deploy_profile}-matcher-lambda-tstates/matcher-lambda.jar"
 
   environment {
     variables = {

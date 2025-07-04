@@ -71,7 +71,7 @@ jobs:
 
       - name: Upload JAR to S3
         run: |
-          aws s3 cp build/libs/lambda-fat.jar s3://skillzzy-matcher-terraform-lambda/build-${{ github.event.inputs.environment }}-matcher-lambda-tstates/matcher-lambda.jar
+          aws s3 cp build/libs/lambda-fat.jar s3://skillzzy-matcher-terraform-lambda/build-${{ github.event.inputs.environment }}-matcher-lambda-tstates/matcher-lambda-${{ env.IMAGE_TAG }}.jar
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
