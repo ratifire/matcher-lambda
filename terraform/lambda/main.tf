@@ -38,17 +38,6 @@ resource "aws_iam_role_policy" "lambda_policy" {
   })
 }
 
-resource "aws_dynamodb_table" "matches" {
-  name         = "${var.dynamoDB_name}_${var.deploy_profile}"
-  billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "id"
-
-  attribute {
-    name = "id"
-    type = "N"
-  }
-}
-
 resource "aws_lambda_function" "matcher_lambda" {
   function_name = "matcher-lambda-${var.deploy_profile}"
   role          = aws_iam_role.lambda_role.arn
@@ -62,7 +51,7 @@ resource "aws_lambda_function" "matcher_lambda" {
 
   environment {
     variables = {
-      TABLE_NAME                    = aws_dynamodb_table.matches.name
+      TABLE_NAME                    = "${var.dynamoDB_name}_${var.deploy_profile}"
       MATCHED_PARTICIPANT_QUEUE_URL = aws_sqs_queue.matcher_queue.url
     }
   }

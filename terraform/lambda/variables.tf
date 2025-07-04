@@ -30,7 +30,7 @@ variable "lambda_policy_name" {
 }
 
 variable "dynamoDB_name" {
-  default = "participant_lambda"
+  default = "participant_matcher"
 }
 
 variable "image_tag" {
