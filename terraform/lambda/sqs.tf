@@ -12,7 +12,7 @@ resource "aws_sqs_queue" "participant_queue" {
   message_retention_seconds  = 86400
 }
 
-resource "aws_sqs_queue" "matcher_queue" {
+resource "aws_sqs_queue" "matcher_queue_dlq" {
   name                       = var.participant_queue_name_dlq
   visibility_timeout_seconds = 30
   delay_seconds              = 0
