@@ -57,6 +57,11 @@ jobs:
       - name: Build fat JAR
         run: ./gradlew shadowJar
 
+      - name: Show workspace tree
+        run: |
+          echo "==== FULL TREE ===="
+          find . -type f
+
       - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
