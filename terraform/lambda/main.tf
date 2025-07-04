@@ -52,13 +52,13 @@ resource "aws_lambda_function" "matcher_lambda" {
   environment {
     variables = {
       DB_TABLE_NAME                 = "${var.dynamoDB_name}_${var.deploy_profile}"
-      MATCHED_PARTICIPANT_QUEUE_URL = var.matcher_participant_url
+      MATCHED_PARTICIPANT_QUEUE_URL = data.aws_sqs_queue.matcher_participant.url
     }
   }
 }
 
 resource "aws_lambda_event_source_mapping" "sqs_event" {
-  event_source_arn = var.participant_queue_arn
+  event_source_arn = data.aws_sqs_queue.participant_queue.arn
   function_name    = aws_lambda_function.matcher_lambda.arn
   batch_size       = 1
 }

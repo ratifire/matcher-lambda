@@ -37,11 +37,3 @@ variable "image_tag" {
   description = "Lambda image tag"
   type        = string
 }
-
-variable "participant_queue_arn" {
-  type = string
-}
-
-variable "matcher_participant_url" {
-  type = string
-}
