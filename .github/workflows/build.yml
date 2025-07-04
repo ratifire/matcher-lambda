@@ -2,7 +2,6 @@ name: Build
 
 env:
   IMAGE_TAG: ${{ github.sha }}
-  working-directory: terraform/lambda
 
 on:
   workflow_dispatch:
@@ -75,14 +74,14 @@ jobs:
       - name: Select .tfvars file based on environment
         run: |
           echo "Selecting .tfvars file for environment: ${{ github.event.inputs.environment }}"
-          if [[ ! -f "/home/runner/work/matcher-service/matcher-service/${{ env.working-directory }}/${{ github.event.inputs.environment }}.tfvars" ]]; then
-            echo "Error: File ${{ github.event.inputs.environment }}.tfvars does not exist in /home/runner/work/matcher-service/matcher-service/${{ env.working-directory }}."
+          if [[ ! -f "/home/runner/work/matcher-lambda/matcher-lambda/terraform/lambda/${{ github.event.inputs.environment }}.tfvars" ]]; then
+            echo "Error: File ${{ github.event.inputs.environment }}.tfvars does not exist in /home/runner/work/matcher-lambda/matcher-lambda/terraform/lambda."
             exit 1
           fi
 
       - name: Terraform Init
         run: |
-          terraform init -backend-config="/home/runner/work/matcher-service/matcher-service/${{ env.working-directory }}/${{ github.event.inputs.environment }}.backend" -reconfigure
+          terraform init -backend-config="/home/runner/work/matcher-lambda/matcher-lambda/${{ env.working-directory }}/${{ github.event.inputs.environment }}.backend" -reconfigure
 
       - name: Terraform Format
         run: terraform fmt -check
@@ -91,5 +90,5 @@ jobs:
         run: terraform plan -input=false -var-file=${{ github.event.inputs.environment }}.tfvars
 
       - name: Terraform apply
-        run: terraform apply -var-file="${{ github.workspace }}/${{ env.working-directory }}/${{ github.event.inputs.environment }}.tfvars" -auto-approve -input=false
+        run: terraform apply -var-file="${{ github.workspace }}/terraform/lambda/${{ github.event.inputs.environment }}.tfvars" -auto-approve -input=false
 
