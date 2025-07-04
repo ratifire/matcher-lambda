@@ -13,7 +13,7 @@ resource "aws_sqs_queue" "participant_queue" {
 }
 
 resource "aws_sqs_queue" "matcher_queue" {
-  name                       = var.participant_queue_name
+  name                       = var.participant_queue_name_dlq
   visibility_timeout_seconds = 30
   delay_seconds              = 0
   message_retention_seconds  = 86400
