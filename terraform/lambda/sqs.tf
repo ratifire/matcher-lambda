@@ -43,7 +43,7 @@ resource "aws_iam_policy" "sqs_policy" {
     Statement = [
       {
         Effect   = "Allow"
-        Action = ["sqs:SendMessage", "sqs:ReceiveMessage"]
+        Action   = ["sqs:SendMessage", "sqs:ReceiveMessage"]
         Resource = "*"
       }
     ]

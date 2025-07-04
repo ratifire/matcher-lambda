@@ -20,12 +20,12 @@ variable "participant_queue_name_dlq" {
 }
 
 variable "lambda_role_name" {
-  type = string
+  type    = string
   default = "matcher_lambda_role"
 }
 
 variable "lambda_policy_name" {
-  type = string
+  type    = string
   default = "matcher_lambda_policy"
 }
 
