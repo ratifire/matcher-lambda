@@ -94,10 +94,14 @@ jobs:
         working-directory: terraform/lambda
         env:
           TF_VAR_image_tag: ${{ env.SHORT_SHA }}
+          TF_VAR_participant_queue_arn: ${{ secrets.PARTICIPANT_QUEUE_ARN }}
+          TF_VAR_matcher_participant_url: ${{ secrets.MATCHER_PARTICIPANT_URL }}
         run: terraform plan -input=false -var-file="${{ github.event.inputs.environment }}.tfvars"
 
       - name: Terraform Apply
         working-directory: terraform/lambda
         env:
           TF_VAR_image_tag: ${{ env.SHORT_SHA }}
+          TF_VAR_participant_queue_arn: ${{ secrets.PARTICIPANT_QUEUE_ARN }}
+          TF_VAR_matcher_participant_url: ${{ secrets.MATCHER_PARTICIPANT_URL }}
         run: terraform apply -auto-approve -input=false -var-file="${{ github.event.inputs.environment }}.tfvars"

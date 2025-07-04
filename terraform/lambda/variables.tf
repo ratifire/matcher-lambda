@@ -38,7 +38,7 @@ variable "image_tag" {
   type        = string
 }
 
-variable "matcher_lambda_arn" {
+variable "participant_queue_arn" {
   type = string
 }
 
