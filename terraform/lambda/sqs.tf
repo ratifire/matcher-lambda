@@ -1,5 +1,5 @@
-resource "aws_sqs_queue" "matcher_participant" {
-  name                       = var.matched_participant_name
+resource "aws_sqs_queue" "matcher_queue_dlq" {
+  name                       = var.participant_queue_name_dlq
   visibility_timeout_seconds = 30
   delay_seconds              = 0
   message_retention_seconds  = 86400
@@ -10,10 +10,15 @@ resource "aws_sqs_queue" "participant_queue" {
   visibility_timeout_seconds = 30
   delay_seconds              = 0
   message_retention_seconds  = 86400
+
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.matcher_queue_dlq.arn
+    maxReceiveCount     = 5
+  })
 }
 
-resource "aws_sqs_queue" "matcher_queue_dlq" {
-  name                       = var.participant_queue_name_dlq
+resource "aws_sqs_queue" "matcher_participant" {
+  name                       = var.matched_participant_name
   visibility_timeout_seconds = 30
   delay_seconds              = 0
   message_retention_seconds  = 86400
