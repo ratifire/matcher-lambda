@@ -2,7 +2,6 @@ name: Destroy
 
 env:
   IMAGE_TAG: ${{ github.sha }}
-  SHORT_SHA: ${GITHUB_SHA::8}
 
 on:
   workflow_dispatch:
