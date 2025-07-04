@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat
 class ParticipantRepository {
 
     private val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-    private val tableName = "Participant"
+    private val tableName = System.getenv("DB_TABLE_NAME")
     private val dynamoDbClient = DynamoDbClient.create()
 
     fun findMatch(participant: ParticipantEntity): List<ParticipantEntity> {
