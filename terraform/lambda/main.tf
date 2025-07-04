@@ -41,7 +41,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
 resource "aws_lambda_function" "matcher_lambda" {
   function_name = "matcher-lambda-${var.deploy_profile}"
   role          = aws_iam_role.lambda_role.arn
-  handler       = "MatcherLambda-${var.deploy_profile}"
+  handler       = "Main::handleRequest"
   runtime       = "java21"
   memory_size   = 512
   timeout       = 30
