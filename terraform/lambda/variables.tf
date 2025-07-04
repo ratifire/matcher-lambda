@@ -32,3 +32,8 @@ variable "lambda_policy_name" {
 variable "dynamoDB_name" {
   default = "participant_lambda"
 }
+
+variable "image_tag" {
+  description = "Lambda image tag"
+  type        = string
+}
