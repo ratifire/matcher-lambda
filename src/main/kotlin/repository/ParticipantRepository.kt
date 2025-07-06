@@ -2,15 +2,11 @@ package repository
 
 import entity.ParticipantEntity
 import enums.ParticipantType
-import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient
-import software.amazon.awssdk.enhanced.dynamodb.Key
-import software.amazon.awssdk.enhanced.dynamodb.TableSchema
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue
 import software.amazon.awssdk.services.dynamodb.model.DeleteItemRequest
 import software.amazon.awssdk.services.dynamodb.model.GetItemRequest
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest
-import software.amazon.awssdk.services.dynamodb.model.QueryRequest
 import software.amazon.awssdk.services.dynamodb.model.ScanRequest
 import software.amazon.awssdk.services.dynamodb.model.UpdateItemRequest
 import java.text.SimpleDateFormat
@@ -18,13 +14,13 @@ import java.text.SimpleDateFormat
 class ParticipantRepository {
 
     private val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-    private val tableName = "Participant"
+    private val tableName = System.getenv("DB_TABLE_NAME")
     private val dynamoDbClient = DynamoDbClient.create()
 
     fun findMatch(participant: ParticipantEntity): List<ParticipantEntity> {
         val query = StringBuilder(
             """
-        SELECT * FROM "Participant"
+        SELECT * FROM "$tableName"
         WHERE "type" <> ? 
           AND "specialization" = ?
           AND "active" = true
