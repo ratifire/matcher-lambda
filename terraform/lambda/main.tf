@@ -20,7 +20,7 @@ resource "aws_iam_role" "lambda_role" {
 }
 
 resource "aws_iam_role_policy" "lambda_policy" {
-  name = var.lambda_role_name
+  name = "${var.lambda_role_name}_${var.deploy_profile}"
   role = aws_iam_role.lambda_role.id
   policy = jsonencode({
     Version = "2012-10-17"
